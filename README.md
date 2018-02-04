@@ -1,6 +1,6 @@
 # Getting and Cleaning Data Course Project
 
-A tidied data was created from the "messy" [Human Activity Recognition Using Smartphones Data Set] (http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones). Tidying a raw data set is very important before performing any analyses.
+A tidied data was created from the "messy" [Human Activity Recognition Using Smartphones Data Set](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones). Tidying a raw data set is very important before performing any analyses.
 
 Note that all necessary files were extracted beforehand from the downloaded zip file of the data set to a folder that is also the working directory. The file names are: X_test.txt, X_train.txt, y_test.txt, y_train.txt, activity_labels.txt, features.txt, subject_test.txt, and subject_train.txt. 
 
