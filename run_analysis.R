@@ -19,6 +19,8 @@ features <- read.table("./features.txt")
 
 
 #1. Merging training and test sets
+
+#changing the headers first for convenience
 names(subjecttest) <- "subject"
 names(ytest) <- "activity"
 names(xtest) <- features[ ,2]
@@ -39,6 +41,8 @@ allTrain <- cbind(allTrain, xtrain)
         #setting aside subject and activity
         traintestf2 <- traintest[, 1:2] 
 
+        #note that the actual merging of test and train is not included here. see Item #2
+
 #2. Extract the means and stds
 extracted <- grep("(mean|std)\\(\\)", names(traintest), value=TRUE)
 combined <- traintest[ ,extracted]
@@ -53,7 +57,7 @@ combined <- traintest[ ,extracted]
 activities <- rbind(ytest, ytrain)
 activities <- merge(activitylabels, activities, by.x="V1", by.y="activity", all.y=TRUE)
 
-        #(optional) merging the allmeans and allstds with activity labels
+        #merging the overall dataset with activity labels
         together <- merge(activitylabels, together, by.x="V1", by.y="activity", all.y=TRUE)
 
 #4. Appropriately labels the data set
@@ -74,9 +78,11 @@ names(together) <- sub("^f", "freq", names(together))
 
         rm(d0)
 
+#the core code in summarizing the data set
 tidyaverages <- together %>% group_by(subject, activity) %>% 
         summarize_at(.funs = mean, .vars = names(together[ ,-(1:2)]))
 
+#renaming the header to show that the results are means
 names(tidyaverages)[-(1:2)] <- paste0("mean.",names(tidyaverages)[-(1:2)])
 
 write.table(tidyaverages, "tidyave.txt")
