@@ -57,24 +57,26 @@ activities <- merge(activitylabels, activities, by.x="V1", by.y="activity", all.
         together <- merge(activitylabels, together, by.x="V1", by.y="activity", all.y=TRUE)
 
 #4. Appropriately labels the data set
-names(combined) <- tolower(names(combined))
-names(combined) <- gsub("mean\\(\\)", "ave", names(combined))
-names(combined) <- gsub("-", "", names(combined))
-names(combined) <- sub("t", "time", names(combined))
-names(combined) <- sub("f", "freq", names(combined))
+names(together) <- tolower(names(together))
+names(together) <- gsub("mean\\(\\)", "ave", names(together))
+names(together) <- gsub("std\\(\\)", "std", names(together))
+names(together) <- gsub("-", "", names(together))
+names(together) <- sub("^t", "time", names(together))
+names(together) <- sub("^f", "freq", names(together))
 
 
 #5. Independent tidy data set
 
         #renaming colnames
-        d0 <- together %>% select(subject, V2)
+        d0 <- together %>% select(subject, v2)
         names(d0) <- c("subject", "activity")
         together <- cbind(d0, together[ ,-(1:3)])
 
         rm(d0)
 
 tidyaverages <- together %>% group_by(subject, activity) %>% 
-        summarize_at(.funs=mean, .vars=names(together[ ,-(1:2)]))
+        summarize_at(.funs = mean, .vars = names(together[ ,-(1:2)]))
 
+names(tidyaverages)[-(1:2)] <- paste0("mean.",names(tidyaverages)[-(1:2)])
 
 write.table(tidyaverages, "tidyave.txt")
